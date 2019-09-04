@@ -145,7 +145,6 @@ a img {
 						</thead>
 						<tbody>
 						    {% for s in object.screen_set.all %}
-								{% if s.loggerpos_set.count %}
 									<tr>
 									<td>{{s.nr}}</td>
 									<td>{{s.top|floatformat:2|default:'onbekend'}}</td>
@@ -170,7 +169,6 @@ a img {
 										{% endwith %}
 										</tr>
 									{% endfor %}
-								{% endif %}
 							{% if s.loggerpos_set.count > 1 %}
 							<tr>
 								<td>{{s.nr}}</td>
