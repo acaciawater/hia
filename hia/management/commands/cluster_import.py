@@ -32,8 +32,7 @@ class Command(BaseCommand):
         screens = set()
         for fname in files:
             logger.info('Importing data from {}'.format(fname))
-            df = pd.read_csv(fname,sep='\t',index_col=0,parse_dates=True)
-            df.drop('Datum',axis=1,inplace=True)
+            df = pd.read_csv(fname,sep='\t',index_col='Datum',parse_dates=True)
             span = [df.index.min(), df.index.max()]
             for col in df.columns:
                 serial, _peilbuis, name = map(lambda x: x.strip(),re.split('[:-]',col))
@@ -71,6 +70,7 @@ class Command(BaseCommand):
                     logger.error('Cannot find installation for logger {}'.format(serial))
                     continue
                 screens.add(pos.screen)
+                logger.info('{}->{}'.format(series.name, pos.screen))
         logger.info('Import completed')
         if len(screens) > 0:
             wells = set()
