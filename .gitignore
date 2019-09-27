@@ -105,5 +105,8 @@ venv.bak/
 
 logs/
 media/
+acacia/
 *.sql
-
+.settings
+.project
+.pydevproject
