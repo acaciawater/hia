@@ -59,22 +59,23 @@ class Command(BaseCommand):
                 if query.count() == 1:
                     pos = query.first()
                 else:
-                    query = query.filter(start_date__range=span)
-                    if query.count == 1:
-                        pos = query.first()
+                    # TODO: klopt niet, de if-else hieronder
+                    query1 = query.filter(start_date__range=span)
+                    if query1.count == 1:
+                        pos = query1.first()
                     else:
-                        query = query.filter(end_date__range=span)
-                        if query.count == 1:
-                            pos = query.first()
+                        query2 = query.filter(end_date__range=span)
+                        if query2.count == 1:
+                            pos = query2.first()
                 if pos is None:
                     logger.error('Cannot find installation for logger {}'.format(serial))
                     continue
                 screens.add(pos.screen)
-                logger.info('{}->{}'.format(series.name, pos.screen))
+
         logger.info('Import completed')
         if len(screens) > 0:
             wells = set()
-            logger.debug('Updating time series')
+            logger.info('Updating time series')
             for screen in screens:
                 series = screen.find_series()
                 if series:
