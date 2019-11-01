@@ -16,7 +16,8 @@ from django.core.management.base import BaseCommand
 
 from acacia.data.models import Generator
 from acacia.data.util import RDNEW, WGS84
-from acacia.meetnet.models import Network, Well, Datalogger, LoggerDatasource
+from acacia.meetnet.models import Network, Well, Datalogger, LoggerDatasource,\
+    Handpeilingen
 from acacia.meetnet.util import register_well, register_screen
 from datetime import datetime
 import pytz
@@ -77,24 +78,24 @@ class Command(BaseCommand):
                         well, created = Well.objects.update_or_create(network=net,name=name,defaults=defaults)
                         register_well(well)
                         
-                        fotodir = os.path.join(os.path.dirname(fname),'fotos')
-                        for nr in range(1,6):
-                            fotoname = row['Foto %d'%nr]
-                            if fotoname:
-                                fotopath = os.path.join(fotodir,fotoname)
-                                if os.path.exists(fotopath):
-                                    with open(fotopath,'rb') as f:
-                                        well.add_photo(fotoname,f)
-                            else:
-                                break                            
-   
-                        logdir = os.path.join(os.path.dirname(fname),'boorstaten')
-                        logname = row['Boorstaat']
-                        if logname:
-                            logpath = os.path.join(logdir,logname)
-                            if os.path.exists(logpath):
-                                with open(logpath,'rb') as f:
-                                    well.set_log(logname,f)
+#                         fotodir = os.path.join(os.path.dirname(fname),'fotos')
+#                         for nr in range(1,6):
+#                             fotoname = row['Foto %d'%nr]
+#                             if fotoname:
+#                                 fotopath = os.path.join(fotodir,fotoname)
+#                                 if os.path.exists(fotopath):
+#                                     with open(fotopath,'rb') as f:
+#                                         well.add_photo(fotoname,f)
+#                             else:
+#                                 break                            
+#    
+#                         logdir = os.path.join(os.path.dirname(fname),'boorstaten')
+#                         logname = row['Boorstaat']
+#                         if logname:
+#                             logpath = os.path.join(logdir,logname)
+#                             if os.path.exists(logpath):
+#                                 with open(logpath,'rb') as f:
+#                                     well.set_log(logname,f)
                                
 #                         #continue # only update well data, photos and logs 
 
@@ -110,6 +111,16 @@ class Command(BaseCommand):
                         
                         if created:
                             logger.info('Added {screen}'.format(screen=str(screen)))
+                        
+                        hand = Handpeilingen.objects.update_or_create(screen=screen,defaults={
+                            'refpnt': 'bkb',
+                            'user': admin,
+                            'mlocatie': screen.mloc,
+                            'name': '{} HAND'.format(screen),
+                            'unit': 'm',
+                            'type': 'scatter',
+                            'timezone': settings.TIME_ZONE
+                        })
                         
                         serial = row['Logger ID']
                         if serial:
