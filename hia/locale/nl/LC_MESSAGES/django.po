@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-13 00:45+0100\n"
+"POT-Creation-Date: 2019-11-13 20:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,8 +38,7 @@ msgstr "aangemaakt"
 msgid "modified"
 msgstr "gewijzigd"
 
-#: models.py:24
-#: templates/hia/document-list.html:24
+#: models.py:24 templates/hia/document-list.html:24
 msgid "Folder"
 msgstr "Map"
 
@@ -55,8 +54,8 @@ msgstr "Bestand"
 msgid "Document"
 msgstr ""
 
-#: models.py:41
-#: templates/hia/document-list.html:3
+#: models.py:41 templates/hia/document-list.html:3
+#: templates/hia/document-list.html:20
 msgid "Documents"
 msgstr "Documenten"
 
@@ -68,8 +67,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: models.py:48
-#: templates/hia/link-list.html:3
+#: models.py:48 templates/hia/home.html:42 templates/hia/link-list.html:3
 msgid "Links"
 msgstr ""
 
@@ -81,8 +79,7 @@ msgstr "Nederlands"
 msgid "English"
 msgstr "Engels"
 
-#: templates/hia/base.html:90
-#: templates/hia/home.html:3
+#: templates/hia/base.html:90 templates/hia/home.html:3
 msgid "Monitoring network"
 msgstr "Meetnet"
 
@@ -107,8 +104,7 @@ msgstr "Handpeilingen"
 msgid "Upload files"
 msgstr "Bestanden uploaden"
 
-#: templates/hia/base.html:110
-#: templates/hia/base.html:136
+#: templates/hia/base.html:110 templates/hia/base.html:136
 msgid "Download files"
 msgstr "Gegevens downloaden"
 
@@ -137,7 +133,8 @@ msgid ""
 "\t\t\t\tWe will send an email with a download link to %(email)s when the "
 "files are ready for download.\n"
 "\t\t\t\t"
-msgstr "\n"
+msgstr ""
+"\n"
 "Klik CSV of NITG om alle tijdreeksen uit het meetnet %(object)s te "
 "downloaden.<br>We sturen een email naar %(email)s als de tijdreeksen gereed "
 "zijn."
@@ -154,11 +151,10 @@ msgstr "Bestand"
 msgid "Modified"
 msgstr "Gewijzigd"
 
-#: templates/hia/home.html:40
+#: templates/hia/home.html:63
 msgid "Wells"
 msgstr "Putten"
 
-#: templates/hia/home.html:40
+#: templates/hia/home.html:63
 msgid "Number of wells"
 msgstr "Aantal putten"
-
