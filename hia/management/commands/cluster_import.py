@@ -14,9 +14,10 @@ from django.core.management.base import BaseCommand
 
 from acacia.meetnet.models import Datalogger, LoggerDatasource, LoggerPos
 from StringIO import StringIO
-from django.utils import timezone
 import binascii
 from acacia.meetnet.actions import make_wellcharts
+from acacia.data.models import SourceFile
+import pytz
 
 logger = logging.getLogger(__name__)
     
@@ -29,11 +30,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         files = options['files']
         admin = User.objects.get(username='theo')
-        screens = set()
+        wells = set()
+        tz=pytz.timezone('Europe/Amsterdam')
         for fname in files:
             logger.info('Importing data from {}'.format(fname))
-            df = pd.read_csv(fname,sep='\t',index_col='Datum',parse_dates=True)
-            span = [df.index.min(), df.index.max()]
+            df = pd.read_csv(fname,sep='\t',index_col=0,parse_dates=True,na_values=['-'])
+            df.drop('Datum',axis=1,inplace=True)
+            span = [tz.localize(df.index.min()), tz.localize(df.index.max())]
+            start, stop = span
+            screens = set()
             for col in df.columns:
                 serial, _peilbuis, name = map(lambda x: x.strip(),re.split('[:-]',col))
                 series = df[col]
@@ -43,12 +48,12 @@ class Command(BaseCommand):
                     datasource = LoggerDatasource.objects.get(logger=datalogger)
                     io = StringIO()
                     io.write('Datum\t{}\n'.format(name))
-                    series.to_csv(io,sep='\t')
+                    series.to_csv(io,sep='\t',header=False)
                     contents = io.getvalue()
                     crc = abs(binascii.crc32(contents))
-                    filename = 'Export_{}_{:%Y%m%d%H%M}'.format(name,timezone.now())
-                    sourcefile = datasource.sourcefiles.create(name=filename,user=admin,crc=crc)
-                    sourcefile.file.save(name=filename, content=io)
+                    filename = 'Export_{}_{}_{:%Y%m%d}_{:%Y%m%d}'.format(serial,name,start,stop)
+                    sourcefile = SourceFile(name=filename,datasource=datasource,user=admin,crc=crc)
+                    sourcefile.file.save(name=filename, content=io, save=True)
                 except Exception as ex:
                     logger.error('Cannot create sourcefile for logger {}: {}'.format(serial,ex))
                 
@@ -72,15 +77,15 @@ class Command(BaseCommand):
                     continue
                 screens.add(pos.screen)
 
-        logger.info('Import completed')
-        if len(screens) > 0:
-            wells = set()
-            logger.info('Updating time series')
-            for screen in screens:
-                series = screen.find_series()
-                if series:
-                    series.replace()
-                    wells.add(screen)
-            if len(wells)>0:
-                logger.info('Updating well charts')
-                make_wellcharts(None,None,wells)
+            logger.info('File import completed')
+            if len(screens) > 0:
+                logger.info('Updating time series')
+                for screen in screens:
+                    series = screen.find_series()
+                    if series:
+                        series.update(start=start,stop=stop)
+                        wells.add(screen.well)
+        if len(wells)>0:
+            logger.info('Updating well charts')
+            make_wellcharts(None,None,wells)
+        logger.info('Done.')
