@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-11 12:25+0200\n"
+"POT-Creation-Date: 2019-11-13 00:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,65 +18,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settings.py:96
+#: models.py:11
+msgid "name"
+msgstr "naam"
+
+#: models.py:12
+msgid "description"
+msgstr "omschrijving"
+
+#: models.py:13
+msgid "folder"
+msgstr "map"
+
+#: models.py:14
+msgid "created"
+msgstr "aangemaakt"
+
+#: models.py:15
+msgid "modified"
+msgstr "gewijzigd"
+
+#: models.py:24
+#: templates/hia/document-list.html:24
+msgid "Folder"
+msgstr "Map"
+
+#: models.py:25
+msgid "Folders"
+msgstr "Mappen"
+
+#: models.py:29
+msgid "file"
+msgstr "Bestand"
+
+#: models.py:40
+msgid "Document"
+msgstr ""
+
+#: models.py:41
+#: templates/hia/document-list.html:3
+msgid "Documents"
+msgstr "Documenten"
+
+#: models.py:44
+msgid "url"
+msgstr ""
+
+#: models.py:47
+msgid "Link"
+msgstr ""
+
+#: models.py:48
+#: templates/hia/link-list.html:3
+msgid "Links"
+msgstr ""
+
+#: settings.py:97
 msgid "Dutch"
 msgstr "Nederlands"
 
-#: settings.py:97
+#: settings.py:98
 msgid "English"
 msgstr "Engels"
 
-#: templates/meetnet/chart_detail.html:6 templates/meetnet/well_detail.html:6
-msgid "Home"
-msgstr "Startpagina"
-
-#: templates/molenwaard/base.html:90 templates/molenwaard/home.html:3
+#: templates/hia/base.html:90
+#: templates/hia/home.html:3
 msgid "Monitoring network"
 msgstr "Meetnet"
 
-#: templates/molenwaard/base.html:101
+#: templates/hia/base.html:101
 msgid "Admin"
 msgstr "Beheer"
 
-#: templates/molenwaard/base.html:105
+#: templates/hia/base.html:105
 msgid "Admin page"
 msgstr "Beheer pagina"
 
-#: templates/molenwaard/base.html:106
+#: templates/hia/base.html:106
 #, fuzzy
-#| msgid "Download files"
 msgid "Download BRO"
 msgstr "BRO registratie downloaden"
 
-#: templates/molenwaard/base.html:107
+#: templates/hia/base.html:107
 msgid "Manual measurements"
 msgstr "Handpeilingen"
 
-#: templates/molenwaard/base.html:108
+#: templates/hia/base.html:108
 msgid "Upload files"
 msgstr "Bestanden uploaden"
 
-#: templates/molenwaard/base.html:110 templates/molenwaard/base.html:136
+#: templates/hia/base.html:110
+#: templates/hia/base.html:136
 msgid "Download files"
 msgstr "Gegevens downloaden"
 
-#: templates/molenwaard/base.html:117
+#: templates/hia/base.html:117
 msgid "Log out"
 msgstr "Uitloggen"
 
-#: templates/molenwaard/base.html:118
+#: templates/hia/base.html:118
 msgid "Change password"
 msgstr "Wachtwoord veranderen"
 
-#: templates/molenwaard/base.html:122
+#: templates/hia/base.html:122
 msgid "Log in"
 msgstr "Inloggen"
 
-#: templates/molenwaard/base.html:140
+#: templates/hia/base.html:140
 msgid "Dear"
 msgstr "Beste"
 
-#: templates/molenwaard/base.html:144
+#: templates/hia/base.html:144
 #, python-format
 msgid ""
 "\n"
@@ -85,31 +137,28 @@ msgid ""
 "\t\t\t\tWe will send an email with a download link to %(email)s when the "
 "files are ready for download.\n"
 "\t\t\t\t"
-msgstr ""
-"\n"
+msgstr "\n"
 "Klik CSV of NITG om alle tijdreeksen uit het meetnet %(object)s te "
 "downloaden.<br>We sturen een email naar %(email)s als de tijdreeksen gereed "
 "zijn."
 
-#: templates/molenwaard/base.html:154
+#: templates/hia/base.html:154
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: templates/molenwaard/home.html:41
+#: templates/hia/document-list.html:23
+msgid "File"
+msgstr "Bestand"
+
+#: templates/hia/document-list.html:25
+msgid "Modified"
+msgstr "Gewijzigd"
+
+#: templates/hia/home.html:40
 msgid "Wells"
 msgstr "Putten"
 
-#: templates/molenwaard/home.html:42
+#: templates/hia/home.html:40
 msgid "Number of wells"
 msgstr "Aantal putten"
 
-#~ msgid "Administration of monitoring network Molenwaard"
-#~ msgstr "Beheer van grondwatermeetnet Gemeente Molenwaard"
-
-#, fuzzy
-#~| msgid "Monitoring network"
-#~ msgid "Monitoring well"
-#~ msgstr "Meetnet"
-
-#~ msgid "Download chart"
-#~ msgstr "Grafiek downloaden"

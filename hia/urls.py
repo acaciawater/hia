@@ -18,7 +18,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-from views import well_locations, PopupView, HomeView
+from views import well_locations, PopupView, HomeView, DocumentListView,\
+    LinkListView
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
@@ -28,6 +29,8 @@ urlpatterns = [
     url(r'^bro/',include('acacia.meetnet.bro.urls',namespace='bro')),
     url(r'^locs/',well_locations,name='locs'),
     url(r'^pop/(?P<pk>\d+)', PopupView.as_view()),
+    url(r'^docs/',DocumentListView.as_view(),name='document-list'),
+    url(r'^links/',LinkListView.as_view(),name='link-list'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]

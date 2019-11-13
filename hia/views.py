@@ -12,6 +12,8 @@ from django.views.generic.detail import DetailView
 from acacia.meetnet.models import Network, Well
 from acacia.meetnet.views import NetworkView
 from django.utils import timezone
+from django.views.generic.list import ListView
+from models import Document, Link
 
 def statuscolor(last):
     """ returns color for bullets on home page.
@@ -44,6 +46,8 @@ class HomeView(NetworkView):
             last = w.last_measurement()
             welldata.append((w,last,statuscolor(last)))
         context['wells'] = welldata
+        context['documents'] = Document.objects.all()
+        context['links'] = Link.objects.all()
         return context
 
     def get_object(self):
@@ -66,3 +70,20 @@ def well_locations(request):
             return HttpResponseServerError(unicode(e))
     return JsonResponse(result,safe=False)
 
+class DocumentListView(ListView):
+    model = Document
+    template_name = 'hia/document-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = ListView.get_context_data(self, **kwargs)
+        context['object'] = Network.objects.first()
+        return context
+    
+class LinkListView(ListView):
+    model = Link
+    template_name = 'hia/link-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = ListView.get_context_data(self, **kwargs)
+        context['object'] = Network.objects.first()
+        return context

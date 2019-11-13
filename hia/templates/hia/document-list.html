@@ -1,0 +1,40 @@
+{% extends 'hia/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Documents" %}{% endblock %}
+{% block style %}
+{{ block.super }}
+<style>
+td > a > img {
+  height: 3em;
+  padding-right: 1em;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+</style>
+{% endblock %}
+{% block admin_url %}/admin/hia/document{% endblock admin_url %}{% block content %}
+<div class="container">
+<h1>{% trans "Documents" %}</h1>
+<table class="table table-hover">
+<thead>
+<th class="col-md-3">{% trans "File" %}</th>
+<th class="col-md-6">{% trans "Folder" %}</th>
+<th class="col-md-3">{% trans "Modified" %}</th>
+</thead>
+<tbody>
+{% for doc in object_list %}
+	<tr>
+    <td><a href="{{ doc.file.url }}"><img src="{{ doc.icon }}"></img>{{doc.name}}</a></td>
+    <td>{{doc.parent}}</a></td>
+    <td>{{doc.modified}}</a></td>
+    </tr>
+{% empty %}
+    No documents yet
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}
