@@ -105,7 +105,7 @@ venv.bak/
 
 logs/
 media/
-acacia/
+acacia
 *.sql
 .settings
 .project
