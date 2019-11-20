@@ -34,20 +34,16 @@ class Command(BaseCommand):
         tz=pytz.timezone('Europe/Amsterdam')
         for fname in files:
             logger.info('Importing data from {}'.format(fname))
-            df = pd.read_csv(fname,sep='\t',parse_dates=True,na_values=['-'])
-#            df = pd.read_csv(fname,sep=',',parse_dates=True,na_values=['-'])
+            df = pd.read_excel(fname,index_col=0,na_values=['-'])
             nrows, ncols = df.shape
             span = [tz.localize(df.index.min()), tz.localize(df.index.max())]
             start, stop = span
             logger.info('{} loggers found'.format(ncols))
             logger.info('count = {}, start = {}, stop = {}.'.format(nrows, start, stop))
             screens = set()
-            for index, col in enumerate(df.columns):
-                if col == 'Datum':
-                    continue
+            for col in df.columns:
                 serial, _peilbuis, name = map(lambda x: x.strip(),re.split('[:-]',col))
-#                 series = df[col] # does not work: shift of one column 
-                series = df.iloc[:,index-1]
+                series = df[col] 
                 logger.info(col)
                 try:
                     datalogger = Datalogger.objects.get(serial=serial)
