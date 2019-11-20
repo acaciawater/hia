@@ -34,15 +34,21 @@ class Command(BaseCommand):
         tz=pytz.timezone('Europe/Amsterdam')
         for fname in files:
             logger.info('Importing data from {}'.format(fname))
-            df = pd.read_csv(fname,sep='\t',index_col=0,parse_dates=True,na_values=['-'])
-            df.drop('Datum',axis=1,inplace=True)
+            df = pd.read_csv(fname,sep='\t',parse_dates=True,na_values=['-'])
+#            df = pd.read_csv(fname,sep=',',parse_dates=True,na_values=['-'])
+            nrows, ncols = df.shape
             span = [tz.localize(df.index.min()), tz.localize(df.index.max())]
             start, stop = span
+            logger.info('{} loggers found'.format(ncols))
+            logger.info('count = {}, start = {}, stop = {}.'.format(nrows, start, stop))
             screens = set()
-            for col in df.columns:
+            for index, col in enumerate(df.columns):
+                if col == 'Datum':
+                    continue
                 serial, _peilbuis, name = map(lambda x: x.strip(),re.split('[:-]',col))
-                series = df[col]
-                logger.info(series.name)
+#                 series = df[col] # does not work: shift of one column 
+                series = df.iloc[:,index-1]
+                logger.info(col)
                 try:
                     datalogger = Datalogger.objects.get(serial=serial)
                     datasource = LoggerDatasource.objects.get(logger=datalogger)
@@ -51,7 +57,7 @@ class Command(BaseCommand):
                     series.to_csv(io,sep='\t',header=False)
                     contents = io.getvalue()
                     crc = abs(binascii.crc32(contents))
-                    filename = 'Export_{}_{}_{:%Y%m%d}_{:%Y%m%d}'.format(serial,name,start,stop)
+                    filename = 'Export_{}_{}_{:%Y%m%d}_{:%Y%m%d}.csv'.format(serial,name,start,stop)
                     sourcefile = SourceFile(name=filename,datasource=datasource,user=admin,crc=crc)
                     sourcefile.file.save(name=filename, content=io, save=True)
                 except Exception as ex:
