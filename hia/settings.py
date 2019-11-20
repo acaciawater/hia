@@ -133,6 +133,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = '/data/'
 
 LOGGING_ROOT = os.path.join(BASE_DIR, 'logs')
+LOGGING_URL = '/logs/'
 
 # Logging
 LOGGING = {
@@ -169,6 +170,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,
         },
+        'import': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGGING_ROOT, 'import.log'),
+            'formatter': 'default'
+        },
         'django': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
@@ -193,22 +200,22 @@ LOGGING = {
             'propagate': True,
         },
         'acacia': {
-            'handlers': ['file',],
+            'handlers': ['file','console'],
             'level': 'DEBUG',
             'propagate': True,
-        },
-        'hia.management': {
-            'handlers': ['console',],
-            'level': 'DEBUG',
-            'propagate': False,
         },
         'acacia.meetnet.management': {
             'handlers': ['console',],
             'level': 'DEBUG',
             'propagate': False,
         },
+        'excel_import': {
+            'handlers': ['import',],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'hia': {
-            'handlers': ['file',],
+            'handlers': ['console',],
             'level': 'DEBUG',
             'propagate': True,
         },
