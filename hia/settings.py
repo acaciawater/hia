@@ -170,12 +170,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,
         },
-        'import': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_ROOT, 'import.log'),
-            'formatter': 'default'
-        },
         'django': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
@@ -208,11 +202,6 @@ LOGGING = {
             'handlers': ['console',],
             'level': 'DEBUG',
             'propagate': False,
-        },
-        'excel_import': {
-            'handlers': ['import',],
-            'level': 'DEBUG',
-            'propagate': True,
         },
         'hia': {
             'handlers': ['console',],
