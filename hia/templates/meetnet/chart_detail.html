@@ -39,10 +39,10 @@
    <b class="caret"></b></a>
    <ul class="dropdown-menu">
        <li><a href="#" onclick='setRef("nap")'>{% trans "NAP" %}</a></li>
-       <li><a href="#" onclick='setRef("bkb")'>{% trans "Bovenkant buis" %}</a></li>
-       <li><a href="#" onclick='setRef("mv")'>{% trans "Maaiveld" %}</a></li>
-       <li><a href="#" onclick='setRef("okf")'>{% trans "Onderkant filter" %}</a></li>
-       <li><a href="#" onclick='setRef("bkf")'>{% trans "Bovenkant filter" %}</a></li>
+       <li><a href="#" onclick='setRef("bkb")'>{% trans "Top of tube" %}</a></li>
+       <li><a href="#" onclick='setRef("mv")'>{% trans "Ground level" %}</a></li>
+       <li><a href="#" onclick='setRef("okf")'>{% trans "Bottom of screen" %}</a></li>
+       <li><a href="#" onclick='setRef("bkf")'>{% trans "Top of screen" %}</a></li>
        <li><a href="#" onclick='setRef("sens")'>{% trans "Sensor" %}</a></li>
      </ul>
    </li>
@@ -50,12 +50,12 @@
    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Aggregation" %}
    <b class="caret"></b></a>
    <ul class="dropdown-menu">
-       <li><a href="#">{% trans "None" %}</a></li>
-       <li><a href="#">{% trans "Auto" %}</a></li>
-       <li><a href="#">{% trans "Months" %}</a></li>
-       <li><a href="#">{% trans "Weeks" %}</a></li>
-       <li><a href="#">{% trans "Days" %}</a></li>
-       <li><a href="#">{% trans "Hours" %}</a></li>
+       <li><a href="#" onclick='setRule("")'>{% trans "None" %}</a></li>
+       <li><a href="#" onclick='setRule("*")'>{% trans "Auto" %}</a></li>
+       <li><a href="#" onclick='setRule("M")'>{% trans "Months" %}</a></li>
+       <li><a href="#" onclick='setRule("W")'>{% trans "Weeks" %}</a></li>
+       <li><a href="#" onclick='setRule("D")'>{% trans "Days" %}</a></li>
+       <li><a href="#" onclick='setRule("H")'>{% trans "Hours" %}</a></li>
      </ul>
    </li>
 
@@ -92,18 +92,31 @@ function getQueryString(params) {
 
 // refresh view with new querystring
 function refresh() {
-	fetchAll();
+	//fetchAll();
+	let url = window.location.href.split('?')[0];
+	url += '?' + getQueryString(queryParams);
+	window.location = url;
 }
 
 /* set reference level */
 function setRef(ref) {
-	queryParams.ref = ref;
+	if(ref) {
+		queryParams.ref = ref;
+	} 
+	else {
+		delete queryParams.ref
+	}
 	return refresh();
 }
 
 /* set resampling rule */
 function setRule(rule) {
-	queryParams.rule = rule; 
+	if(rule) {
+		queryParams.rule = rule;
+	}
+	else {
+		delete queryParams.rule;
+	}
 	return refresh();
 }
 
@@ -113,7 +126,6 @@ function fetchSeries(name,id) {
 	const query = getQueryString(queryParams);
 	const url = `/net/data/${id}?${query}`;
     $.getJSON(url, function (data) {
-//    $.getJSON('/net/data/'+id+'?{{request.GET.urlencode}}', function (data) {
 	  	var chart = $('#container').highcharts();
 	  	$.each(data,function(key,values) {
 	  		if (values) {
@@ -147,7 +159,7 @@ function fetchAll() {
 }
 
 $(function () {
-  var opt = {{options|safe}};
+  let opt = {{options|safe}};
   opt.chart.events.load = fetchAll;
   opt.exporting = {
 	        buttons: {
