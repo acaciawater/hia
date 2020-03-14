@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^pop/(?P<pk>\d+)', PopupView.as_view()),
     url(r'^docs/',DocumentListView.as_view(),name='document-list'),
     url(r'^links/',LinkListView.as_view(),name='link-list'),
+    url(r'^api/v1/', include('acacia.meetnet.api.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
