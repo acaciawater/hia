@@ -34,30 +34,30 @@
 {% if nav.next %}
 <li><a href="{%url 'meetnet:chart-detail' nav.next.id %}">{{nav.next|title}}</a></li>
 {% endif %}
- <li class="dropdown">
-   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Reference" %}
-   <b class="caret"></b></a>
-   <ul class="dropdown-menu">
-       <li><a href="#" onclick='setRef("nap")'>{% trans "NAP" %}</a></li>
-       <li><a href="#" onclick='setRef("bkb")'>{% trans "Top of tube" %}</a></li>
-       <li><a href="#" onclick='setRef("mv")'>{% trans "Ground level" %}</a></li>
-       <li><a href="#" onclick='setRef("bot")'>{% trans "Bottom of screen" %}</a></li>
-       <li><a href="#" onclick='setRef("top")'>{% trans "Top of screen" %}</a></li>
-       <li><a href="#" onclick='setRef("sens")'>{% trans "Sensor" %}</a></li>
-     </ul>
-   </li>
- <li class="dropdown">
-   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Aggregation" %}
-   <b class="caret"></b></a>
-   <ul class="dropdown-menu">
-       <li><a href="#" onclick='setRule("")'>{% trans "None" %}</a></li>
-       <li><a href="#" onclick='setRule("*")'>{% trans "Auto" %}</a></li>
-       <li><a href="#" onclick='setRule("M")'>{% trans "Months" %}</a></li>
-       <li><a href="#" onclick='setRule("W")'>{% trans "Weeks" %}</a></li>
-       <li><a href="#" onclick='setRule("D")'>{% trans "Days" %}</a></li>
-       <li><a href="#" onclick='setRule("H")'>{% trans "Hours" %}</a></li>
-     </ul>
-   </li>
+<!--  <li class="dropdown"> -->
+<!--    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Reference" %} -->
+<!--    <b class="caret"></b></a> -->
+<!--    <ul class="dropdown-menu"> -->
+<!--        <li><a href="#" onclick='setRef("nap")'>{% trans "NAP" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRef("bkb")'>{% trans "Top of tube" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRef("mv")'>{% trans "Ground level" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRef("bot")'>{% trans "Bottom of screen" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRef("top")'>{% trans "Top of screen" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRef("sens")'>{% trans "Sensor" %}</a></li> -->
+<!--      </ul> -->
+<!--    </li> -->
+<!--  <li class="dropdown"> -->
+<!--    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Aggregation" %} -->
+<!--    <b class="caret"></b></a> -->
+<!--    <ul class="dropdown-menu"> -->
+<!--        <li><a href="#" onclick='setRule("")'>{% trans "None" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRule("*")'>{% trans "Auto" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRule("M")'>{% trans "Months" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRule("W")'>{% trans "Weeks" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRule("D")'>{% trans "Days" %}</a></li> -->
+<!--        <li><a href="#" onclick='setRule("H")'>{% trans "Hours" %}</a></li> -->
+<!--      </ul> -->
+<!--    </li> -->
 
 {% endblock %}
 
