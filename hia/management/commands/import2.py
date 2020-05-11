@@ -78,24 +78,24 @@ class Command(BaseCommand):
                         well, created = Well.objects.update_or_create(network=net,name=name,defaults=defaults)
                         register_well(well)
                         
-#                         fotodir = os.path.join(os.path.dirname(fname),'fotos')
-#                         for nr in range(1,6):
-#                             fotoname = row['Foto %d'%nr]
-#                             if fotoname:
-#                                 fotopath = os.path.join(fotodir,fotoname)
-#                                 if os.path.exists(fotopath):
-#                                     with open(fotopath,'rb') as f:
-#                                         well.add_photo(fotoname,f)
-#                             else:
-#                                 break                            
-#    
-#                         logdir = os.path.join(os.path.dirname(fname),'boorstaten')
-#                         logname = row['Boorstaat']
-#                         if logname:
-#                             logpath = os.path.join(logdir,logname)
-#                             if os.path.exists(logpath):
-#                                 with open(logpath,'rb') as f:
-#                                     well.set_log(logname,f)
+                        fotodir = os.path.join(os.path.dirname(fname),'fotos')
+                        for nr in range(1,6):
+                            fotoname = row['Foto %d'%nr]
+                            if fotoname:
+                                fotopath = os.path.join(fotodir,fotoname)
+                                if os.path.exists(fotopath):
+                                    with open(fotopath,'rb') as f:
+                                        well.add_photo(fotoname,f)
+                            else:
+                                break                            
+    
+                        logdir = os.path.join(os.path.dirname(fname),'boorstaten')
+                        logname = row['Boorstaat']
+                        if logname:
+                            logpath = os.path.join(logdir,logname)
+                            if os.path.exists(logpath):
+                                with open(logpath,'rb') as f:
+                                    well.set_log(logname,f,'PNG')
                                
 #                         #continue # only update well data, photos and logs 
 
