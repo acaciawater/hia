@@ -9,9 +9,7 @@ import re
 import logging
 import csv
 
-from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-
 from acacia.meetnet.models import Well
 import os
 from datetime import datetime
@@ -23,15 +21,21 @@ logger = logging.getLogger(__name__)
     
 class Command(BaseCommand):
     help = 'Import Munisense csv export'
-    
+    #TODO: store source files and add datasource/generator
     def add_arguments(self, parser):
         parser.add_argument('folder', help='Folder with csv files', type=str)
+        parser.add_argument('--well','-w',
+                action='store',
+                dest = 'well',
+                default = '',
+                help = 'well number')
 
     def handle(self, *args, **options):
-        pattern = r'csv_results_\d+_(?P<nr>\d+)_\d+\.csv'
-        tz = pytz.timezone('Europe/Amsterdam')
+        pattern = r'csv_results_\d+_(?P<nr>\d+)_.+\.csv'
+        tz = pytz.timezone('Europe/Amsterdam') # TODO: check timezone!
         end_date = datetime(2019,9,18,0,0,0,0,tz)
         folder = options['folder']
+        single_target = options['well']
         logger.info('Importing data from folder {}'.format(folder))
         for path, _dirs, files in os.walk(folder):
             for fname in files:
@@ -41,6 +45,9 @@ class Command(BaseCommand):
                     continue
                 nr = int(match.group('nr'))
                 name = '{:03}'.format(nr)
+                if single_target and name != single_target:
+                    logger.info('File {} skipped: no match'.format(fname))
+                    continue
                 try:
                     well = Well.objects.get(name=name)
                 except Well.DoesNotExist:
@@ -77,54 +84,3 @@ class Command(BaseCommand):
                     except Exception as e:
                         logger.error(e)
                         
-    #             span = [df.index.min(), df.index.max()]
-    #             for col in df.columns:
-    #                 serial, _peilbuis, name = map(lambda x: x.strip(),re.split('[:-]',col))
-    #                 series = df[col]
-    #                 logger.info(series.name)
-    #                 try:
-    #                     datalogger = Datalogger.objects.get(serial=serial)
-    #                     datasource = LoggerDatasource.objects.get(logger=datalogger)
-    #                     io = StringIO()
-    #                     io.write('Datum\t{}\n'.format(name))
-    #                     series.to_csv(io,sep='\t')
-    #                     contents = io.getvalue()
-    #                     crc = abs(binascii.crc32(contents))
-    #                     filename = 'Export_{}_{:%Y%m%d%H%M}'.format(name,timezone.now())
-    #                     sourcefile = datasource.sourcefiles.create(name=filename,user=admin,crc=crc)
-    #                     sourcefile.file.save(name=filename, content=io)
-    #                 except Exception as ex:
-    #                     logger.error('Cannot create sourcefile for logger {}: {}'.format(serial,ex))
-    #                 
-    #                 # find out where logger is
-    #                 # we could use the name from the header, but this is not equal to the id of the screen in the database
-    #                 query = LoggerPos.objects.filter(logger=datalogger)
-    #                 pos = None
-    #                 if query.count() == 1:
-    #                     pos = query.first()
-    #                 else:
-    #                     # TODO: klopt niet, de if-else hieronder
-    #                     query1 = query.filter(start_date__range=span)
-    #                     if query1.count == 1:
-    #                         pos = query1.first()
-    #                     else:
-    #                         query2 = query.filter(end_date__range=span)
-    #                         if query2.count == 1:
-    #                             pos = query2.first()
-    #                 if pos is None:
-    #                     logger.error('Cannot find installation for logger {}'.format(serial))
-    #                     continue
-    #                 screens.add(pos.screen)
-    # 
-    #         logger.info('Import completed')
-    #         if len(screens) > 0:
-    #             wells = set()
-    #             logger.info('Updating time series')
-    #             for screen in screens:
-    #                 series = screen.find_series()
-    #                 if series:
-    #                     series.replace()
-    #                     wells.add(screen)
-    #             if len(wells)>0:
-    #                 logger.info('Updating well charts')
-    #                 make_wellcharts(None,None,wells)
